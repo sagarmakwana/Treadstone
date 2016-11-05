@@ -8,6 +8,7 @@ import numpy as np
 import csv
 
 def invokeQuestionManager():
+    processQuestionData()
     print 'Operation successful.'
 
 def processQuestionData():
@@ -48,4 +49,6 @@ def processQuestionData():
             featureVector = np.concatenate((featureVector, np.reshape(noOfQualityAnswers, (1, 1))), axis=1)
             featureMatrix = np.concatenate((featureMatrix, featureVector), axis=0)
 
-np.savetxt('processedQuestionData.csv', featureMatrix, delimiter=",")
+    np.savetxt('processedQuestionData.csv', featureMatrix, delimiter=",")
+
+invokeQuestionManager()
