@@ -9,20 +9,25 @@ import csv
 import pickle
 
 def invokeQuestionManager():
-    processQuestionData()
-    dumpQuestionData()
+    global questionFile
+    with open('processedQuestionInfo.csv', 'wb') as questionFile:
+        processQuestionData()
     print 'Operation successful.'
+
+# This function will process question_info.txt and write the expanded version into processedQuestionInfo.csv
 
 def processQuestionData():
     global questionTags
     global upvotes
+    global noOfAnswers
     global noOfQualityAnswers
     global questionID
-    global idToFeatureMap
-    idToFeatureMap = {}
+    global featureRow
     lineNumber = 1
     with open("bytecup2016data/question_info.txt") as tsv:
         for line in csv.reader(tsv, dialect="excel-tab"):
+
+            featureRow = ''
             print lineNumber
             lineNumber += 1
             featureVector = np.zeros(shape=(1, 0))
@@ -44,17 +49,26 @@ def processQuestionData():
             charID = map(int, charID)
 
             upvotes = line[4]
-            noOfQualityAnswers = line[5]
+            noOfAnswers = line[5]
+            noOfQualityAnswers = line[6]
+
             wordIDVector[0, wordID] = 1
             charIDVector[0, charID] = 1
+
+            featureVector = np.concatenate((featureVector, np.reshape(questionID, (1, 1))), axis=1)
             featureVector = np.concatenate((featureVector, np.reshape(questionTags, (1, 1))), axis=1)
             featureVector = np.concatenate((featureVector, wordIDVector), axis=1)
             featureVector = np.concatenate((featureVector, charIDVector), axis=1)
             featureVector = np.concatenate((featureVector, np.reshape(upvotes, (1, 1))), axis=1)
+            featureVector = np.concatenate((featureVector, np.reshape(noOfAnswers, (1, 1))), axis=1)
             featureVector = np.concatenate((featureVector, np.reshape(noOfQualityAnswers, (1, 1))), axis=1)
-            idToFeatureMap[questionID] = featureVector
 
-def dumpQuestionData():
-    pickle.dump(idToFeatureMap, open("bytecup2016data/processedQuestionData.p", "wb"))
+            for i in range(featureVector.shape[1]-1):
+                featureRow += featureVector[0,i] + ','
+            featureRow += featureVector[0, i+1]
+            featureRow += '\n'
+
+            questionFile.write(featureRow)
 
 invokeQuestionManager()
+

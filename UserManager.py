@@ -3,14 +3,14 @@ import numpy as np
 import csv, sys, pickle
 
 def invokeUserManager():
-    processUserData()
-    dumpQuestionData()
+    global userFile
+    with open('processedUserInfo.csv', 'wb') as userFile:
+        processUserData()
     print 'Operation successful.'
 
+# This function will process user_info.txt and write the expanded version into processedUserInfo.csv
 
 def processUserData():
-
-    charSet = set()
 
     global questionTags
     global questionID
@@ -22,6 +22,8 @@ def processUserData():
     with open("bytecup2016data/user_info.txt") as tsv:
         for line in csv.reader(tsv, dialect="excel-tab"):
             print lineNumber
+            featureRow = ''
+
             lineNumber += 1
             featureVector = np.zeros(shape=(1, 0))
             wordIDVector = np.zeros(shape=(1, 37810))
@@ -48,21 +50,21 @@ def processUserData():
             charID = charID.split('/')
             charID = map(int, charID)
 
-            for cid in wordID:
-                if cid not in charSet:
-                    charSet.add(cid)
 
             tagIDVector[0, tagID] = 1
             wordIDVector[0, wordID] = 1
             charIDVector[0, charID] = 1
 
+            featureVector = np.concatenate((featureVector, np.reshape(userID, (1, 1))), axis=1)
             featureVector = np.concatenate((featureVector, tagIDVector), axis=1)
             featureVector = np.concatenate((featureVector, wordIDVector), axis=1)
             featureVector = np.concatenate((featureVector, charIDVector), axis=1)
 
-            idToFeatureMap[userID] = featureVector
+            for i in range(featureVector.shape[1]-1):
+                featureRow += featureVector[0,i] + ','
+            featureRow += featureVector[0, i+1]
+            featureRow += '\n'
 
-def dumpQuestionData():
-    pickle.dump(idToFeatureMap, open("bytecup2016data/processedUserData.p", "wb"))
+            userFile.write(featureRow)
 
 invokeUserManager()
