@@ -6,11 +6,10 @@ Created on Fri Nov 04 19:08:10 2016
 """
 import numpy as np
 import csv
-import pickle
 
 def invokeQuestionManager():
     global questionFile
-    with open('processedQuestionInfo.csv', 'wb') as questionFile:
+    with open('bytecup2016data/processedQuestionInfo.csv', 'wb') as questionFile:
         processQuestionData()
     print 'Operation successful.'
 
@@ -24,7 +23,7 @@ def processQuestionData():
     global questionID
     global featureRow
     lineNumber = 1
-    with open("bytecup2016data/question_info.txt") as tsv:
+    with open("bytecup2016data/question_info_dummy.txt") as tsv:
         for line in csv.reader(tsv, dialect="excel-tab"):
 
             featureRow = ''

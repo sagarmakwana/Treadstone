@@ -4,7 +4,7 @@ import csv, sys, pickle
 
 def invokeUserManager():
     global userFile
-    with open('processedUserInfo.csv', 'wb') as userFile:
+    with open('bytecup2016data/processedUserInfo.csv', 'wb') as userFile:
         processUserData()
     print 'Operation successful.'
 
@@ -19,7 +19,7 @@ def processUserData():
     featureMatrix = np.zeros(shape=(0, 35023))
     global idToFeatureMap
     idToFeatureMap = {}
-    with open("bytecup2016data/user_info.txt") as tsv:
+    with open("bytecup2016data/user_info_dummy.txt") as tsv:
         for line in csv.reader(tsv, dialect="excel-tab"):
             print lineNumber
             featureRow = ''
