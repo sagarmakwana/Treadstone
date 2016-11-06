@@ -45,7 +45,6 @@ def processQuestionData():
             noOfQualityAnswers = line[5]
             wordIDVector[0, wordID] = 1
             charIDVector[0, charID] = 1
-
             featureVector = np.concatenate((featureVector, np.reshape(questionID, (1, 1))), axis=1)
             featureVector = np.concatenate((featureVector, wordIDVector), axis=1)
             featureVector = np.concatenate((featureVector, charIDVector), axis=1)
@@ -53,6 +52,6 @@ def processQuestionData():
             featureVector = np.concatenate((featureVector, np.reshape(noOfQualityAnswers, (1, 1))), axis=1)
             featureMatrix = np.concatenate((featureMatrix, featureVector), axis=0)
 
-    np.savetxt('processedQuestionData.csv', featureMatrix, delimiter=",")
+    np.savetxt('bytecup2016data/processedQuestionData.csv', featureMatrix, delimiter=",")
 
 invokeQuestionManager()

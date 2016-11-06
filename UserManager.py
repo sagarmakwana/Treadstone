@@ -11,10 +11,8 @@ def processUserData():
     global questionTags
     global questionID
     global featureMatrix
-
     lineNumber = 1
     featureMatrix = np.zeros(shape=(0, 35023))
-
     with open("bytecup2016data/user_info.txt") as tsv:
         for line in csv.reader(tsv, dialect="excel-tab"):
             print lineNumber
@@ -53,5 +51,7 @@ def processUserData():
             featureVector = np.concatenate((featureVector, wordIDVector), axis=1)
             featureVector = np.concatenate((featureVector, charIDVector), axis=1)
             featureMatrix = np.concatenate((featureMatrix, featureVector), axis=0)
+
+    np.savetxt('bytecup2016data/processedUserData.csv', featureMatrix, delimiter=",")
 
 invokeUserManager()
