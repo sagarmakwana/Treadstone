@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-import csv, sys
+import csv, sys, pickle
 
 def invokeUserManager():
     processUserData()
+    dumpQuestionData()
     print 'Operation successful.'
 
 
@@ -16,6 +17,7 @@ def processUserData():
     global featureMatrix
     lineNumber = 1
     featureMatrix = np.zeros(shape=(0, 35023))
+    global idToFeatureMap
     idToFeatureMap = {}
     with open("bytecup2016data/user_info.txt") as tsv:
         for line in csv.reader(tsv, dialect="excel-tab"):
@@ -60,6 +62,7 @@ def processUserData():
 
             idToFeatureMap[userID] = featureVector
 
-    np.savetxt('bytecup2016data/processedUserData.csv', featureMatrix, delimiter=",")
+def dumpQuestionData():
+    pickle.dump(idToFeatureMap, open("bytecup2016data/processedQuestionData.p", "wb"))
 
 invokeUserManager()
