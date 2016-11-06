@@ -4,7 +4,7 @@ import pickle
 
 def invokeDataMergeManager():
     mergeData()
-    #dumpMergedData()
+    dumpMergedData()
     print 'Operation successful.'
 
 def mergeData():
@@ -25,9 +25,10 @@ def mergeData():
             labelList.append(label)
         featureArray = np.asarray(featureList)
         labelArray = np.asarray(featureList)
-        print featureArray.shape
-        print label.shape
 
 
+def dumpMergedData():
+    pickle.dump(featureArray, open("bytecup2016data/trainingFeatures.p", "wb"))
+    pickle.dump(labelArray, open("bytecup2016data/trainingLabel.p", "wb"))
 
 invokeDataMergeManager()
