@@ -63,6 +63,6 @@ def processUserData():
             idToFeatureMap[userID] = featureVector
 
 def dumpQuestionData():
-    pickle.dump(idToFeatureMap, open("bytecup2016data/processedQuestionData.p", "wb"))
+    pickle.dump(idToFeatureMap, open("bytecup2016data/processedUserData.p", "wb"))
 
 invokeUserManager()
