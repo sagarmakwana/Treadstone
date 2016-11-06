@@ -6,9 +6,11 @@ Created on Fri Nov 04 19:08:10 2016
 """
 import numpy as np
 import csv
+import pickle
 
 def invokeQuestionManager():
     processQuestionData()
+    dumpQuestionData()
     print 'Operation successful.'
 
 def processQuestionData():
@@ -16,8 +18,8 @@ def processQuestionData():
     global upvotes
     global noOfQualityAnswers
     global questionID
-    global featureMatrix
-    featureMatrix = np.zeros(shape=(0, 16195))
+    global idToFeatureMap
+    idToFeatureMap = {}
     lineNumber = 1
     with open("bytecup2016data/question_info.txt") as tsv:
         for line in csv.reader(tsv, dialect="excel-tab"):
@@ -45,13 +47,14 @@ def processQuestionData():
             noOfQualityAnswers = line[5]
             wordIDVector[0, wordID] = 1
             charIDVector[0, charID] = 1
-            featureVector = np.concatenate((featureVector, np.reshape(questionID, (1, 1))), axis=1)
+            featureVector = np.concatenate((featureVector, np.reshape(questionTags, (1, 1))), axis=1)
             featureVector = np.concatenate((featureVector, wordIDVector), axis=1)
             featureVector = np.concatenate((featureVector, charIDVector), axis=1)
             featureVector = np.concatenate((featureVector, np.reshape(upvotes, (1, 1))), axis=1)
             featureVector = np.concatenate((featureVector, np.reshape(noOfQualityAnswers, (1, 1))), axis=1)
-            featureMatrix = np.concatenate((featureMatrix, featureVector), axis=0)
+            idToFeatureMap[questionID] = featureVector
 
-    np.savetxt('bytecup2016data/processedQuestionData.csv', featureMatrix, delimiter=",")
+def dumpQuestionData():
+    pickle.dump(idToFeatureMap, open("bytecup2016data/processedQuestionData.p", "wb"))
 
 invokeQuestionManager()
