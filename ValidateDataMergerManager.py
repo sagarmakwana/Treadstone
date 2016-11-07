@@ -3,7 +3,7 @@ import csv
 
 def invokeDataMergeManager():
     global mergeFile
-    with open('bytecup2016data/mergeInfo.csv', 'wb') as mergeFile:
+    with open('bytecup2016data/validateDataSet.csv', 'wb') as mergeFile:
         mergeData()
     print 'Operation successful.'
 
@@ -12,15 +12,11 @@ def mergeData():
     userFeatures = np.loadtxt("bytecup2016data/processedUserInfo.csv", dtype=str, delimiter=",")
     questionIdToFeatureMap = convertToDictionary(questionFeatures)
     userIdToFeatureMap = convertToDictionary(userFeatures)
-    lineNumber = 1
-    with open("bytecup2016data/invited_info_train.txt") as tsv:
-        for line in csv.reader(tsv, dialect="excel-tab"):
-            print lineNumber
-            lineNumber += 1
+    with open("bytecup2016data/validate_nolabel.txt") as tsv:
+        for line in csv.reader(tsv, dialect=","):
             questionId = line[0]
             userId = line[1]
-            label = line[2]
-            combinedFeatureVectorString = questionIdToFeatureMap[questionId] + "," + userIdToFeatureMap[userId] + "," + label + "\n"
+            combinedFeatureVectorString = questionIdToFeatureMap[questionId] + "," + userIdToFeatureMap[userId] + "\n"
             mergeFile.write(combinedFeatureVectorString)
 
 
