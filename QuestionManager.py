@@ -23,7 +23,7 @@ def processQuestionData():
     global questionID
     global featureRow
     lineNumber = 1
-    with open("bytecup2016data/question_info_dummy.txt") as tsv:
+    with open("bytecup2016data/question_info.txt") as tsv:
         for line in csv.reader(tsv, dialect="excel-tab"):
 
             featureRow = ''

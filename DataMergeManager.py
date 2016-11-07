@@ -12,7 +12,7 @@ def mergeData():
     userFeatures = np.loadtxt("bytecup2016data/processedUserInfo.csv", dtype=str, delimiter=",")
     questionIdToFeatureMap = convertToDictionary(questionFeatures)
     userIdToFeatureMap = convertToDictionary(userFeatures)
-    with open("bytecup2016data/invited_info_train_dummy.txt") as tsv:
+    with open("bytecup2016data/invited_info_train.txt") as tsv:
         for line in csv.reader(tsv, dialect="excel-tab"):
             questionId = line[0]
             userId = line[1]
