@@ -3,7 +3,7 @@ from sklearn.decomposition import PCA
 import pandas as pd
 
 print "Starting operation"
-data = pd.read_csv('bytecup2016data/processedUserInfo.csv', sep=",")
+data = pd.read_csv('bytecup2016data/processedUserInfo.csv', sep=",", header=None)
 print "Data loaded"
 train_QID = np.reshape(data.loc[:,0], (data.shape[0],1))
 train_X = data.loc[:,1:np.size(data,1)-1]
