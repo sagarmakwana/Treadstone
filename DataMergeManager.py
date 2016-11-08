@@ -3,20 +3,19 @@ import csv
 
 def invokeDataMergeManager():
     global mergeFile
+    print 'Operation started.'
     with open('bytecup2016data/mergeInfo.csv', 'wb') as mergeFile:
         mergeData()
     print 'Operation successful.'
 
 def mergeData():
-    questionFeatures = np.loadtxt("bytecup2016data/processedQuestionInfo.csv", dtype=str, delimiter=",")
-    userFeatures = np.loadtxt("bytecup2016data/processedUserInfo.csv", dtype=str, delimiter=",")
+    questionFeatures = np.loadtxt("bytecup2016data/pcaQuestionInfo.csv", dtype=str, delimiter=",")
+    userFeatures = np.loadtxt("bytecup2016data/pcaUserInfo.csv", dtype=str, delimiter=",")
     questionIdToFeatureMap = convertToDictionary(questionFeatures)
     userIdToFeatureMap = convertToDictionary(userFeatures)
-    lineNumber = 1
+    print 'Dictionaries ready'
     with open("bytecup2016data/invited_info_train.txt") as tsv:
         for line in csv.reader(tsv, dialect="excel-tab"):
-            print lineNumber
-            lineNumber += 1
             questionId = line[0]
             userId = line[1]
             label = line[2]
