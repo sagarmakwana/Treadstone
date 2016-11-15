@@ -4,7 +4,11 @@ import csv, sys, pickle
 
 def invokeUserManager():
     global userFile
-    with open('bytecup2016data/processedUserInfo.csv', 'wb') as userFile:
+    global wordFile
+    global characterFile
+    with open('bytecup2016data/processedUserInfo.csv', 'wb') as userFile, \
+            open('bytecup2016data/processedUserWordInfo.csv', 'wb') as wordFile, \
+            open('bytecup2016data/processedUserCharacterInfo.csv', 'wb') as characterFile:
         processUserData()
     print 'Operation successful.'
 
@@ -15,6 +19,8 @@ def processUserData():
     global questionTags
     global questionID
     global featureMatrix
+    global wordRow
+    global characterRow
     lineNumber = 1
     featureMatrix = np.zeros(shape=(0, 35023))
     global idToFeatureMap
@@ -57,8 +63,8 @@ def processUserData():
 
             featureVector = np.concatenate((featureVector, np.reshape(userID, (1, 1))), axis=1)
             featureVector = np.concatenate((featureVector, tagIDVector), axis=1)
-            featureVector = np.concatenate((featureVector, wordIDVector), axis=1)
-            featureVector = np.concatenate((featureVector, charIDVector), axis=1)
+            # featureVector = np.concatenate((featureVector, wordIDVector), axis=1)
+            # featureVector = np.concatenate((featureVector, charIDVector), axis=1)
 
             for i in range(featureVector.shape[1]-1):
                 featureRow += featureVector[0,i] + ','
@@ -66,5 +72,19 @@ def processUserData():
             featureRow += '\n'
 
             userFile.write(featureRow)
+
+            for i in range(wordIDVector.shape[1] - 1):
+                wordRow += wordIDVector[0, i] + ','
+            wordRow += wordIDVector[0, i + 1]
+            wordRow += '\n'
+
+            wordFile.write(wordRow)
+
+            for i in range(charIDVector.shape[1] - 1):
+                characterRow += charIDVector[0, i] + ','
+            characterRow += charIDVector[0, i + 1]
+            characterRow += '\n'
+
+            characterFile.write(wordRow)
 
 invokeUserManager()
