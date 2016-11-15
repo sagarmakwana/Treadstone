@@ -31,7 +31,8 @@ def processQuestionData():
     lineNumber = 1
     with open("bytecup2016data/question_info.txt") as tsv:
         for line in csv.reader(tsv, dialect="excel-tab"):
-
+            wordRow = ''
+            characterRow = ''
             featureRow = ''
             print lineNumber
             lineNumber += 1
@@ -69,24 +70,21 @@ def processQuestionData():
             featureVector = np.concatenate((featureVector, np.reshape(noOfQualityAnswers, (1, 1))), axis=1)
 
             for i in range(featureVector.shape[1]-1):
-                featureRow += featureVector[0,i] + ','
+                featureRow += featureVector[0, i] + ','
             featureRow += featureVector[0, i+1]
             featureRow += '\n'
-
             questionFile.write(featureRow)
 
             for i in range(wordIDVector.shape[1]-1):
-                wordRow += wordIDVector[0,i] + ','
-            wordRow += wordIDVector[0,i+1]
+                wordRow += str(wordIDVector[0, i]) + ','
+            wordRow += str(wordIDVector[0, i+1])
             wordRow += '\n'
-
             wordFile.write(wordRow)
 
             for i in range(charIDVector.shape[1] - 1):
-                characterRow += charIDVector[0, i] + ','
-            characterRow += charIDVector[0, i + 1]
+                characterRow += str(charIDVector[0, i]) + ','
+            characterRow += str(charIDVector[0, i+1])
             characterRow += '\n'
-
             characterFile.write(wordRow)
 
 

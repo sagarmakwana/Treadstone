@@ -29,7 +29,8 @@ def processUserData():
         for line in csv.reader(tsv, dialect="excel-tab"):
             print lineNumber
             featureRow = ''
-
+            wordRow = ''
+            characterRow = ''
             lineNumber += 1
             featureVector = np.zeros(shape=(1, 0))
             wordIDVector = np.zeros(shape=(1, 37810))
@@ -70,21 +71,18 @@ def processUserData():
                 featureRow += featureVector[0,i] + ','
             featureRow += featureVector[0, i+1]
             featureRow += '\n'
-
             userFile.write(featureRow)
 
             for i in range(wordIDVector.shape[1] - 1):
-                wordRow += wordIDVector[0, i] + ','
-            wordRow += wordIDVector[0, i + 1]
+                wordRow += str(wordIDVector[0, i]) + ','
+            wordRow += str(wordIDVector[0, i + 1])
             wordRow += '\n'
-
             wordFile.write(wordRow)
 
             for i in range(charIDVector.shape[1] - 1):
-                characterRow += charIDVector[0, i] + ','
-            characterRow += charIDVector[0, i + 1]
+                characterRow += str(charIDVector[0, i]) + ','
+            characterRow += str(charIDVector[0, i + 1])
             characterRow += '\n'
-
             characterFile.write(wordRow)
 
 invokeUserManager()
