@@ -18,15 +18,22 @@ pca = PCA(n_components=2500)
 transform_X_Question = pca.fit_transform(train_X_Question)
 transform_X_User = pca.fit_transform(train_X_User)
 print "PCA End"
-with open('bytecup2016data/pcaWordInfo.csv', 'wb') as pcaWordInfoFile:
+with open('bytecup2016data/pcaQuestionWordInfo.csv', 'wb') as pcaWordInfoFile:
     for index in range(transform_X_Question.shape[0]):
         reducedFeature = ""
         columnIndex = 0
         for columnIndex in range(transform_X_Question.shape[1]-1):
             reducedFeature += str(transform_X_Question[index,columnIndex]) + ","
-        reducedFeature += str(transform_X_Question[index,columnIndex+1]) + ","
-        for columnIndex in range(transform_X_Question.shape[1] - 1):
-            reducedFeature += str(transform_X_Question[index, columnIndex]) + ","
-        reducedFeature += str(transform_X_Question[index, columnIndex + 1]) + "\n"
+        reducedFeature += str(transform_X_Question[index,columnIndex+1]) + "\n"
         pcaWordInfoFile.write(reducedFeature)
+print '1 file created'
+with open('bytecup2016data/pcaUserWordInfo.csv', 'wb') as pcaWordInfoFile:
+    for index in range(transform_X_User.shape[0]):
+        reducedFeature = ""
+        columnIndex = 0
+        for columnIndex in range(transform_X_User.shape[1]-1):
+            reducedFeature += str(transform_X_User[index,columnIndex]) + ","
+        reducedFeature += str(transform_X_User[index,columnIndex+1]) + "\n"
+        pcaWordInfoFile.write(reducedFeature)
+print '2 file created'
 print "Operation Successful"
